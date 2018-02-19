@@ -1,0 +1,51 @@
+	void AutonomousPeriodic() {
+/*
+* This is a general C++ format for driving forward for a specific time.
+* You will need to declare and initialize a timer for driving.
+* Timers count in seconds up from zero.
+*
+* Declaration statement: Timer *exampleTimer;
+* Place that statement under public: as you would with any other variable.
+*
+* Initialization statement: exampleTimer = new Timer();
+* Place that statement under RobotInit(), as you would with other things.
+*
+* You will also need to start and reset that timer.
+* Reset statement: exampleTimer->Reset();
+* 		Clears the saved value of the Timer.
+* Start statement: exampleTimer->Start();
+* 		Starts the Timer.
+* Place those functions in that order within AutonomousInit.
+*
+* 	void AutonomousInit() override {
+*		exampleTimer->Reset();
+*		exampleTimer->Start();
+*	}
+*
+* You will also need to get values, in seconds, from that timer.
+* Get statement: exampleTimer->Get();
+*
+* Quick Syntax note:
+* The -> symbol represents a pointer.
+* It simply means "reference a memory address", in this case, the bit of memory the exampleTimer occupies.
+* Think of it as a road sign, "go here for this address".
+*/
+
+	//The condition is true as along as the timer value is less than the userSetTime.
+	//userSetTime should be in seconds.
+		if(exampleTimer->Get() <= userSetTime) {
+		//Use the number of motors you need, this is simply a format.
+		//This example uses TalonSRX functions, but use the motor controller functions appropriate to your drivetrain and controllers.
+		//PercentOutput, a TalonSRX feature, uses an input range of -1 to 1, with both ends being full reverse and forward, respectively.
+		//For example, -1 represents -100% power, -0.5 represents -50%.
+			exampleLeftMotor->Set(ControlMode::PercentOutput, /*Desired Speed Value*/);
+
+		//Remember that one side of the drivetrain will need to be inverted, hence the "Negative" in the exampleRightMotor input.
+			exampleRightMotor->Set(ControlMode::PercentOutput, /*Inverted desired Drive Value*/);
+		} else {
+		//The else statement runs when the exampleTimer is greater then the userSetTime.
+		//Sets the drive motors to zero percent output, to halt the robot.
+			exampleLeftMotor->Set(ControlMode::PercentOutput, 0.0);
+			exampleRightMotor->Set(ControlMode::PercentOutput, 0.0);
+		}
+	}
